@@ -51,13 +51,30 @@ public final class Piece {
         //  Note: this.body[i] = points[i] (or Arrays.copyOf) copies a reference to a Point
         //      object; it does not create a new Point object with the same x and y attributes
         //      as the element in the points array
+        Point temp;
+        for(int i = 0; i < points.length; i++)
+        {
+            temp = points[i];
+            this.body[i] = temp;
+        }
         
         
         // TODO: initialize the width instance variable with the width of the piece
         
+        this.width = points[points.length - 1].x - points[0].x + 1;
+        
         // TODO: initialize the height instance variable with the height of the piece
         
+        this.height = points[points.length - 1].y - points[0].y + 1;
+        
         // TODO: initialize the skirt instance variable
+        
+        int min = points[0].
+        for(int x = 0; x < this.width; x++)
+        {
+            this.skirt[x] = 
+        }
+        
         //  Note: carefully read and description of the skirt in the lab document;
         //      this is the most challenging algorithm in this constructor
         
