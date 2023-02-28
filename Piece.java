@@ -44,35 +44,61 @@ public final class Piece {
     {
         // initialize next to null; it will be initialized in the pieceRow method
         this.next = null;
-        
+
         // TODO: copy the points array and copy the Point elements in the array
         //  Note: this.body = points copies the reference to the array referenced by points;
         //      it does not create a new array of references to Point objects
         //  Note: this.body[i] = points[i] (or Arrays.copyOf) copies a reference to a Point
         //      object; it does not create a new Point object with the same x and y attributes
         //      as the element in the points array
-        Point temp;
+        
+        this.body = new Point[points.length];
         for(int i = 0; i < points.length; i++)
         {
-            temp = points[i];
-            this.body[i] = temp;
+            this.body[i] = new Point(points[i].x, points[i].y);
         }
-        
+
         
         // TODO: initialize the width instance variable with the width of the piece
-        
-        this.width = points[points.length - 1].x - points[0].x + 1;
+
+        int min = 0;
+        for(int i = 0; i < points.length; i++)
+        {
+            if(min < points[i].x)
+            {
+                min = points[i].x;
+            }
+        }
+        this.width = min;
         
         // TODO: initialize the height instance variable with the height of the piece
-        
-        this.height = points[points.length - 1].y - points[0].y + 1;
-        
+
+        min = 0;
+        for(int i = 0; i < points.length; i++)
+        {
+            if(min < points[i].y)
+            {
+                min = points[i].y;
+            }
+        }
+        this.height = min;
+
         // TODO: initialize the skirt instance variable
         
-        int min = points[0].
-        for(int x = 0; x < this.width; x++)
+        int[] arr = new int[this.width];
+        this.skirt = new int[this.width];
+        for(int i = 0; i < this.width; i++)
         {
-            this.skirt[x] = 
+            arr[i] = this.height;
+        }
+        for(int i = 0; i < this.body.length; i++)
+        {
+            int x = this.body[i].x;
+            int y = this.body[i].y;
+            if(y < arr[x])
+            {
+                this.skirt[x] = y;
+            }
         }
         
         //  Note: carefully read and description of the skirt in the lab document;
@@ -82,11 +108,11 @@ public final class Piece {
         // create a new skirt array with the appropriate number of elements
         // initialize each element in the skirt to a "large" value (e.g., height)
         // for each point in the body:
-            // get the x value
-            // get the y value
-            // check if the y value is less than the value in the skirt 
-            //      at the index equal to the x value
-            // if so, update the value in the skirt
+        // get the x value
+        // get the y value
+        // check if the y value is less than the value in the skirt 
+        //      at the index equal to the x value
+        // if so, update the value in the skirt
 
     }   
 
@@ -201,12 +227,12 @@ public final class Piece {
     public String toString()
     {
         String str = "";
-        
+
         // TODO: build a string that contains all of the attributes of this Piece
-        
+
         return str;
     }
-    
+
     /**
      * Returns an array containing the first rotation of each of the 7 standard
      *      tetris pieces. The next (counterclockwise) rotation can be obtained
@@ -248,7 +274,7 @@ public final class Piece {
     private static Piece pieceRow(Piece firstPiece)
     {
         Piece piece = firstPiece;
-        
+
         System.out.println("\nfirst piece: " + piece);
 
         // maximum of 4 rotations until we are back at the first piece (we may break earlier)
@@ -262,14 +288,14 @@ public final class Piece {
             }
 
             // TODO: step 1: reflect across the line y = x
-            
+
             // TODO: step 2: reflect across y axis
-            
+
             // TODO: step 3: translate right
-            
+
             // create the rotated piece, update next, prepare for nextIteration
             Piece rotatedPiece = new Piece(rotatedPoints);
-            
+
             System.out.println(rotatedPiece);
 
             // check if we are back to the original piece
