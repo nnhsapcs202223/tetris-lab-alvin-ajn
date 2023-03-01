@@ -51,16 +51,14 @@ public final class Piece {
         //  Note: this.body[i] = points[i] (or Arrays.copyOf) copies a reference to a Point
         //      object; it does not create a new Point object with the same x and y attributes
         //      as the element in the points array
-        
+
         this.body = new Point[points.length];
         for(int i = 0; i < points.length; i++)
         {
             this.body[i] = new Point(points[i].x, points[i].y);
         }
 
-        
         // TODO: initialize the width instance variable with the width of the piece
-
         int min = 0;
         for(int i = 0; i < points.length; i++)
         {
@@ -69,8 +67,8 @@ public final class Piece {
                 min = points[i].x;
             }
         }
-        this.width = min;
-        
+        this.width = min + 1;
+
         // TODO: initialize the height instance variable with the height of the piece
 
         min = 0;
@@ -81,29 +79,28 @@ public final class Piece {
                 min = points[i].y;
             }
         }
-        this.height = min;
+        this.height = min + 1;
 
         // TODO: initialize the skirt instance variable
-        
-        int[] arr = new int[this.width];
+
         this.skirt = new int[this.width];
         for(int i = 0; i < this.width; i++)
         {
-            arr[i] = this.height;
+            skirt[i] = this.height;
         }
         for(int i = 0; i < this.body.length; i++)
         {
             int x = this.body[i].x;
             int y = this.body[i].y;
-            if(y < arr[x])
+            if(y < skirt[x])
             {
                 this.skirt[x] = y;
             }
         }
-        
+
         //  Note: carefully read and description of the skirt in the lab document;
         //      this is the most challenging algorithm in this constructor
-        
+
         // skirt psuedocode
         // create a new skirt array with the appropriate number of elements
         // initialize each element in the skirt to a "large" value (e.g., height)
@@ -229,7 +226,11 @@ public final class Piece {
         String str = "";
 
         // TODO: build a string that contains all of the attributes of this Piece
-
+        str += "width: " + this.width + "\nheight: " + this.height + "\nskirt: ";
+        for(int i = 0; i < this.skirt.length; i++)
+        {
+            str += "skirt at x = " + (i) + "; " + this.skirt[i];
+        }
         return str;
     }
 
@@ -286,13 +287,33 @@ public final class Piece {
             {
                 rotatedPoints[i] = new Point(piece.getBody()[i]);
             }
-
+            
             // TODO: step 1: reflect across the line y = x
+            
+            int x = rotatedPoints[0].x;
+            int y = rotatedPoints[0].y;
+            for(int i = 0; i < rotatedPoints.length; i++)
+            {
+                x = rotatedPoints[i].x;
+                y = rotatedPoints[i].y;
+                rotatedPoints[i].x = y;
+                rotatedPoints[i].y = x;
+            }
 
             // TODO: step 2: reflect across y axis
-
+            
+            for(int i = 0; i < rotatedPoints.length; i++)
+            {
+                rotatedPoints[i].x *= -1;
+            }
+            
             // TODO: step 3: translate right
-
+            
+            for(int i = 0; i < rotatedPoints.length; i++)
+            {
+                rotatedPoints[i].x += piece.getHeight() - 1;
+            }
+            
             // create the rotated piece, update next, prepare for nextIteration
             Piece rotatedPiece = new Piece(rotatedPoints);
 
