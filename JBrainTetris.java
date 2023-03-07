@@ -14,7 +14,6 @@ public class JBrainTetris extends JTetris
 {
     private Brain brain;
     private JButton enableBrain;
-    private JLabel brainLabel;
     private boolean isBrainEnabled = false;
     private int count;
 
@@ -37,11 +36,10 @@ public class JBrainTetris extends JTetris
             brains[i] = brainList.get(i);
         }
         cb = new JComboBox(brains);
+        panel.add(cb);
         
-        this.enableBrain = new JButton("Enable Brain/Disable Brain");
+        this.enableBrain = new JButton("Enable Brain");
         panel.add(enableBrain);
-        this.brainLabel = new JLabel("brain: off");
-        panel.add(brainLabel);
         this.enableBrain.addActionListener(listener);
         
         return panel;
@@ -66,12 +64,12 @@ public class JBrainTetris extends JTetris
                 if(count % 2 != 0)
                 {
                     isBrainEnabled = true;
-                    brainLabel.setText("brain: on");
+                    enableBrain.setText("Disable Brain");
                 }
                 else
                 {
                     isBrainEnabled = false;
-                    brainLabel.setText("brain: off");
+                    enableBrain.setText("Enable Brain");
                 }
             }
         }
