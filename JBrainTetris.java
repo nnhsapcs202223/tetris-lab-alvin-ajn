@@ -74,4 +74,18 @@ public class JBrainTetris extends JTetris
             }
         }
     }
+    
+    @Override public Piece pickNextPiece()
+    {
+        if(isBrainEnabled == true)
+        {
+            int pieceNum = (int) (this.pieces.length * this.random.nextDouble());
+            int limitHeight = HEIGHT + TOP_SPACE;
+            return brain.bestMove(this.board, piece, limitHeight);
+        }
+        else
+        {
+            super.pickNextPiece();
+        }
+    }
 }
