@@ -13,6 +13,10 @@ import javax.swing.event.*;
 public class JBrainTetris extends JTetris
 {
     private Brain brain;
+    private JButton enableBrain;
+    private JLabel brainLabel;
+    private boolean isBrainEnabled = false;
+    private int count;
 
     public JBrainTetris(int width, int height)
     {
@@ -23,6 +27,8 @@ public class JBrainTetris extends JTetris
     {
         Container panel = new Container();
         panel = super.createControlPanel();
+        ClickListener listener = new ClickListener();
+        
         JComboBox cb = new JComboBox();
         ArrayList<Brain> brainList = BrainFactory.createBrains();
         Brain[] brains = new Brain[brainList.size()];
@@ -31,7 +37,13 @@ public class JBrainTetris extends JTetris
             brains[i] = brainList.get(i);
         }
         cb = new JComboBox(brains);
-
+        
+        this.enableBrain = new JButton("Enable Brain/Disable Brain");
+        panel.add(enableBrain);
+        this.brainLabel = new JLabel("brain: off");
+        panel.add(brainLabel);
+        this.enableBrain.addActionListener(listener);
+        
         return panel;
     }
 
@@ -40,7 +52,28 @@ public class JBrainTetris extends JTetris
         public void actionPerformed(ActionEvent e)
         {
             JComboBox cb = (JComboBox)e.getSource();
-            String brainName = (String)cb.getSelectedItem();
+            brain = (Brain)cb.getSelectedItem();
+        }
+    }
+    
+    public class ClickListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if(e.getSource() == enableBrain)
+            {
+                count++;
+                if(count % 2 != 0)
+                {
+                    isBrainEnabled = true;
+                    brainLabel.setText("brain: on");
+                }
+                else
+                {
+                    isBrainEnabled = false;
+                    brainLabel.setText("brain: off");
+                }
+            }
         }
     }
 }
