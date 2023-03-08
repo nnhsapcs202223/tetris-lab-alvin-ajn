@@ -16,6 +16,7 @@ public class JBrainTetris extends JTetris
     private JButton enableBrain;
     private boolean isBrainEnabled = false;
     private int count;
+    private Move bestMove;
 
     public JBrainTetris(int width, int height)
     {
@@ -77,17 +78,20 @@ public class JBrainTetris extends JTetris
     
     @Override public Piece pickNextPiece()
     {
-        if(isBrainEnabled == true)
+        if(isBrainEnabled)
         {
-            int pieceNum = (int)(this.pieces.length * this.random.nextDouble());
             int limitHeight = HEIGHT + TOP_SPACE;
-            Move bestMove = brain.bestMove(super.board, super.pieces[pieceNum], limitHeight);
+            this.bestMove = brain.bestMove(super.board, super.currentPiece, limitHeight);
         }
         return super.pickNextPiece();
     }
     
     @Override public void tick(int verb)
     {
-        super.tick(verb);
+        if(isBrainEnabled)
+        {
+            if(
+        }
+        super.tick(DOWN);
     }
 }
