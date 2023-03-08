@@ -79,13 +79,15 @@ public class JBrainTetris extends JTetris
     {
         if(isBrainEnabled == true)
         {
-            int pieceNum = (int) (this.pieces.length * this.random.nextDouble());
+            int pieceNum = (int)(this.pieces.length * this.random.nextDouble());
             int limitHeight = HEIGHT + TOP_SPACE;
-            return brain.bestMove(this.board, piece, limitHeight);
+            Move bestMove = brain.bestMove(super.board, super.pieces[pieceNum], limitHeight);
         }
-        else
-        {
-            super.pickNextPiece();
-        }
+        return super.pickNextPiece();
+    }
+    
+    @Override public void tick(int verb)
+    {
+        super.tick(verb);
     }
 }
