@@ -28,7 +28,7 @@ public class JBrainTetris extends JTetris
         Container panel = new Container();
         panel = super.createControlPanel();
         ClickListener listener = new ClickListener();
-        
+
         JComboBox cb = new JComboBox();
         ArrayList<Brain> brainList = BrainFactory.createBrains();
         Brain[] brains = new Brain[brainList.size()];
@@ -37,12 +37,14 @@ public class JBrainTetris extends JTetris
             brains[i] = brainList.get(i);
         }
         cb = new JComboBox(brains);
+        brain = new SimpleBrain();
+        cb.addActionListener(new ComboBox());
         panel.add(cb);
-        
+
         this.enableBrain = new JButton("Enable Brain");
         panel.add(enableBrain);
         this.enableBrain.addActionListener(listener);
-        
+
         return panel;
     }
 
@@ -54,7 +56,7 @@ public class JBrainTetris extends JTetris
             brain = (Brain)cb.getSelectedItem();
         }
     }
-    
+
     public class ClickListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
@@ -75,23 +77,37 @@ public class JBrainTetris extends JTetris
             }
         }
     }
-    
+
     @Override public Piece pickNextPiece()
     {
-        if(isBrainEnabled)
-        {
-            int limitHeight = HEIGHT + TOP_SPACE;
-            this.bestMove = brain.bestMove(super.board, super.currentPiece, limitHeight);
-        }
-        return super.pickNextPiece();
+        int pieceNum = (int)(this.pieces.length * this.random.nextDouble());
+        int limitHeight = HEIGHT + TOP_SPACE;
+        System.out.println(brain);
+        this.bestMove = brain.bestMove(this.board, this.pieces[pieceNum], limitHeight);
+        return this.pieces[pieceNum];
     }
-    
+
     @Override public void tick(int verb)
     {
         if(isBrainEnabled)
         {
-            if(
+            if(this.currentX < bestMove.getX())
+            {
+                tick(RIGHT);
+            }
+            else if(this.currentX > bestMove.getX())
+            {
+                tick(LEFT);
+            }
+            if(!this.currentPiece.equals(bestMove))
+            {
+                tick(ROTATE);
+            }
+            tick(DOWN);
         }
-        super.tick(DOWN);
+        else
+        {
+            super.tick(verb);
+        }
     }
 }
