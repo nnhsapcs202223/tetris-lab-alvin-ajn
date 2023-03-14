@@ -102,7 +102,12 @@ public class JBrainTetris extends JTetris
             {
                 super.tick(ROTATE);
             }
+            if(this.currentPiece.nextRotation().equals(bestMove.getPiece().nextRotation()) && this.currentX == bestMove.getX())
+            {
+                super.tick(DROP);
+                super.tick(verb);
+            }
+            super.tick(verb);
         }
-        super.tick(verb);
     }
 }
