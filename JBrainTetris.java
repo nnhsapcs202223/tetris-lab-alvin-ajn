@@ -82,7 +82,6 @@ public class JBrainTetris extends JTetris
     {
         int pieceNum = (int)(this.pieces.length * this.random.nextDouble());
         int limitHeight = HEIGHT + TOP_SPACE;
-        System.out.println(brain);
         this.bestMove = brain.bestMove(this.board, this.pieces[pieceNum], limitHeight);
         return this.pieces[pieceNum];
     }
@@ -93,21 +92,17 @@ public class JBrainTetris extends JTetris
         {
             if(this.currentX < bestMove.getX())
             {
-                tick(RIGHT);
+                super.tick(RIGHT);
             }
             else if(this.currentX > bestMove.getX())
             {
-                tick(LEFT);
+                super.tick(LEFT);
             }
-            if(!this.currentPiece.equals(bestMove))
+            if(!this.currentPiece.nextRotation().equals(bestMove.getPiece().nextRotation()))
             {
-                tick(ROTATE);
+                super.tick(ROTATE);
             }
-            tick(DOWN);
         }
-        else
-        {
-            super.tick(verb);
-        }
+        super.tick(verb);
     }
 }
